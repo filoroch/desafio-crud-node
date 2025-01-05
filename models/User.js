@@ -1,23 +1,24 @@
-const db = require('../database/connection');
-const bcrypt = require('bcrypt');
+const {DataTypes} = require('sequelize');
+const sequelize = require('config/database.db');
 
-const User = {
-    getAll: async () => {
-        await db.read;
-        return db.data.users;
+const User = sequelize.define('User', {
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
     },
-    findByEmail: async (email) => {
-        await db.read();
-        return db.data.users.find((user) => user.email === email);
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
     },
-    create: async (userData) => {
-        const hashedPassword = await bcrypt.hash(userData.password, 10);
-        const newUser = {...userData, password: hashedPassword, id: Date.now().toString() };
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    acessLevel: {
+        type: DataTypes.ENUM('admin', 'guest'),
+        allowNull: false,
+    },
+});
 
-        await db.read();
-        db.data.users.push(newUser);
-        await db.write();
-
-        return newUser;
-    },
-};
+module.exports = User;
