@@ -1,40 +1,28 @@
-const db = require('database/connection');
-const awaitDbRead = await db.read();
+const {DataTypes} = require('sequelize');
+const sequelize = require('config/database.db');
 
-const Employee = {
-    getAll: async () => {
-        awaitDbRead;
-        return db.data.employers;
+const Employee = sequelize.define('Employee',  {
+    fullName: {
+        type: DataTypes.STRING,
+            allowNull: false,
     },
-    findById: async (id) => {
-        awaitDbRead;
-        return db.data.employers.find((employee) => employee.id === id);
+    cpf: {
+        type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
     },
-    create: async (employeeData) => {
-        const newEmployee = {...employeeData, id: Date.now().toString()};
-
-        awaitDbRead;
-        db.data.employers.push(newEmployee);
-        await db.write();
-
-        return newEmployee;
+    department: {
+        type: DataTypes.STRING,
+            allowNull: true,
     },
-    update: async (id, updates) => {
-        awaitDbRead;
-        const employee = db.data.employers.find((emp) => emp.id === id);
-
-        if (!employee) return null;
-
-        Object.assign(employee, updates);
-        await db.write();
-
-        return employee;
+    salary: {
+        type: DataTypes.FLOAT,
+            allowNull: false,
     },
-    delete: async (id) => {
-        awaitDbRead;
-        db.data.employers = db.data.employers.filters((emp) => emp.id !== id);
-        await db.write();
+    status: {
+        type: DataTypes.ENUM('Ativo', 'Inativo', 'Em licença'),
+            allowNull: false,
     },
-};
+});
 
 module.exports = Employee;
