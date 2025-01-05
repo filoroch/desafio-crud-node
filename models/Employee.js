@@ -1,5 +1,5 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('config/database.db');
+const sequelize = require('../config/database');
 
 const Employee = sequelize.define('Employee',  {
     fullName: {
@@ -21,7 +21,8 @@ const Employee = sequelize.define('Employee',  {
     },
     status: {
         type: DataTypes.ENUM('Ativo', 'Inativo', 'Em licença'),
-            allowNull: false,
+        allowNull: false,
+        defaultValue: 'Ativo'
     },
 });
 
