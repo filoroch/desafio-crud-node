@@ -9,7 +9,7 @@ const db = new Low(adapter);
 
 const initializeDB = async () => {
     await db.read(); // Carrega os dados do arquivo;
-    db.data = {usuarios : [], funcionarios: [], departamentos: [], cargos: [] }; // Estrutura do JSON
+    db.data = {users : [], employers: [], departaments: [], roles: [] }; // Estrutura do JSON
     await db.write(); // Salve os dados no arquivo
 };
 
