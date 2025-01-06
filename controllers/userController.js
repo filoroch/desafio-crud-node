@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const {response} = require("express");
+const bcrypt = require('bcrypt');
 
 const userController = {
     create: async (req, res) => {
@@ -9,7 +10,9 @@ const userController = {
                 return res.status(400).json({error: 'Todos os campos são obrigatorios'})
             }
             console.log('Dados recebidos:', { name, email, password }); // Log dos dados
-            const newUser = await User.create({name, email, password, role});
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            const newUser = await User.create({name, email, password: hashedPassword, role});
             console.log('Usuário criado:', newUser); // Log do resultado
 
             res.status(201).json(newUser);
