@@ -65,6 +65,7 @@ const userController = {
     delete: async (req, res) => {
         try {
             const {id} = req.params;
+            console.log('ID do usuário:', id); // Log do ID
             const deleteUser = await User.findByPk(id);
 
             if (!deleteUser) return res.status(400).json({error: 'Usuario não encontrado!'});
