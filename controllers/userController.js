@@ -4,12 +4,15 @@ const {response} = require("express");
 const userController = {
     create: async (req, res) => {
         try {
-            const {name, email, password, role } = req.body;
-            if (!name || !email || !password || !role){
+            const {name, email, password, role} = req.body;
+            if (!name || !email || !password ){
                 return res.status(400).json({error: 'Todos os campos são obrigatorios'})
             }
+            console.log('Dados recebidos:', { name, email, password }); // Log dos dados
             const newUser = await User.create({name, email, password, role});
-            res.status(2021).json(newUser);
+            console.log('Usuário criado:', newUser); // Log do resultado
+
+            res.status(201).json(newUser);
         }catch (error){
             console.log(error);
             res.status(500).json({error: 'Erro ao criar usuario'});
@@ -36,6 +39,28 @@ const userController = {
             console.error(error);
             res.status(500).json({error: 'Erro ao buscar usuários'})
         }
+    },
+    update: async (req, res) => {
+      try{
+          const {id} = req.params;
+          const {name, email, password, role} = req.body;
+          const user = await User.findByPk(id);
+
+          if (!user) return res.status(400).json({error: 'Usuario não encontrado!'});
+
+          // Verifica os novos valores e os modifica
+          if(name !== user.name) user.name = name;
+          if(email !== user.email) user.email = email;
+          if(password !== user.password) user.password = password;
+          if(role !== user.role) user.role = role;
+
+          await user.save();
+
+          res.status(200).json(user);
+      }catch (error) {
+          console.error(error);
+          res.status(500).json({error: 'Erro ao editar usuários'})
+      }
     },
     delete: async (req, res) => {
         try {
