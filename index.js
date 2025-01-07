@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoutes = require('./routes/userRoutes');
+const employeeRoutes = require('./routes/employeeRoutes');
 const departamentRoutes = require('./routes/departamentRoutes');
 
 const app = express();
@@ -7,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 // Registra as rotas
-app.use('/api', userRoutes, departamentRoutes); // Prefixo para as rotas de API
+app.use('/api', userRoutes, departamentRoutes, employeeRoutes); // Prefixo para as rotas de API
 
 // Tratamento de erros genérico
 app.use((err, req, res, next) => {
