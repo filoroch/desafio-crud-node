@@ -43,20 +43,15 @@ const departamentController = {
     },
     update: async (req, res) => {
         try{
-            const {id} = req.params;
-            const {name, description, location, status} = req.params;
+            const {id} = req.body;
+            const {name, description, location, status} = req.body;
             const updateDepartament = await Departament.findByPk(id);
 
             if (!updateDepartament) return res.status(400).json({error: 'Departamento não encontrado'});
             
             // Verifica se os novos valores são diferentes dos atuais e modifica-os
-            if(name !== updateDepartament.name) updateDepartament.name = name;
-            if(description !== updateDepartament.description) updateDepartament.description = description;
-            if(location !== updateDepartament.location) updateDepartament.location = location;
-            if(status !== updateDepartament.status) updateDepartament.status = status;
-
+            await updateDepartament.update({name, description, location, status});
             await updateDepartament.save();
-
             res.status(200).json(updateDepartament);
         } catch (error){
             console.error(error);
