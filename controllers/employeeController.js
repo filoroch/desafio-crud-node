@@ -1,5 +1,5 @@
-const Employee = require('../models/Employee');
-const { response } = require('express');
+import Employee from '../models/Employee';
+import { response } from 'express'; 
 
 //const employerParams = {fullname, cpf, departament, status}
 

@@ -1,6 +1,6 @@
-const User = require('../models/User');
-const {response} = require("express");
-const bcrypt = require('bcrypt');
+import User from '../models/User';
+import { response } from 'express';
+import bcrypt from 'bcrypt';
 
 const userController = {
     create: async (req, res) => {

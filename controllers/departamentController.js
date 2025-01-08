@@ -1,5 +1,5 @@
-const Departament = require('../models/Departament');
-const { response } = require('express');
+import Departament from '../models/Departament';
+import { response } from 'express';
 
 const departamentController = {
     create: async (req, res) => {
